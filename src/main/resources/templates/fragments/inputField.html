@@ -15,6 +15,10 @@
       <input th:case="date"
              th:class="${#fields.hasErrors(name)} ? 'form-control is-invalid' : 'form-control'"
              type="date" th:field="*{__${name}__}" />
+
+      <input th:case="password"
+             th:class="${#fields.hasErrors(name)} ? 'form-control is-invalid' : 'form-control'"
+             type="password" th:field="*{__${name}__}" />
     </div>
 
       <span th:if="${#fields.hasErrors(name)}"

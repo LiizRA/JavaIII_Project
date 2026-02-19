@@ -1,6 +1,10 @@
 package org.springframework.samples.petclinic.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Set;
@@ -14,16 +18,21 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name="first_name", nullable = false, length = 50)
+	@Column(name="first_name", nullable = true, length = 50)
 	private String firstName;
 
-	@Column(name="last_name", nullable = false, length = 50)
+	@Column(name="last_name", nullable = true, length = 50)
 	private String lastName;
 
 	@Column(nullable = false, unique = true, length = 100)
+	@NotEmpty(message = "Email is required")
+	@Email(message = "Please enter a valid email")
 	private String email;
 
-	@Column(name="password_hash", nullable = false, length = 255)
+	@Column(name="password_hash", nullable = true, length = 255)
+	@NotEmpty(message = "Password is required")
+	@Size(min = 8, message = "Password must be at least 8 characters")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", message = "Password must contain uppercase, lowercase, and number")
 	private String password;
 
 	// Many-to-Many Relationship with Role
