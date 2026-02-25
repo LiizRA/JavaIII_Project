@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -110,22 +111,29 @@ public class AuthController {
 		return Optional.empty();
 	}
 
-//	@PostMapping("/login")
-//	public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest) {
-		// 1. Create a token with the user's plain text credentials
-//		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
-//			loginRequest.getEmail(),
-//			loginRequest.getPassword()
-//		);
+	@GetMapping("/login-success")
+	public String processLoginSuccess(Principal principal, RedirectAttributes redirectAttributes) {
+		String email = principal.getName();
+		Optional<School> school = findSchoolByRecursiveDomain(email);
 
-		// 2. Process authentication using the manager (which uses your UserDetailsService)
-//		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		if(school.isPresent()) {
+			redirectAttributes.addFlashAttribute("messageSuccess",
+				"Welcome back! You have been redirected to " + school.get().getName() + "'s school page.");
+			return "redirect:/schools/" + school.get().getDomain().substring(0, school.get().getDomain().length() - 4);
+		} else {
+			redirectAttributes.addFlashAttribute("messageWarning",
+				"Welcome back! We could not find a school matching your email domain");
+			// Redirect a user to the schools page if their school was not found.
+			return "redirect:/schools";
+		}
+	}
 
-		// 3. Optional: Set the authenticated user in the security context (needed for session-based security)
-		// Since your app is stateless, you would typically generate a JWT token here.
-		// For testing, we'll confirm success.
+	@GetMapping("/login")
+	public String initLoginForm(Model model, HttpSession session) {
+		User user = new User();
 
-		// If the line above didn't throw an exception, authentication succeeded.
-//		return new ResponseEntity<>("User logged in successfully!", HttpStatus.OK);
-//	}
+		model.addAttribute("user", user);
+		return "auth/loginForm";
+	}
+
 }
