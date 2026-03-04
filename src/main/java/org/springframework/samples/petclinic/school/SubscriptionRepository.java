@@ -13,4 +13,6 @@ import java.util.concurrent.Flow;
 public interface SubscriptionRepository extends Repository<Subscription, Integer> {
 	@Transactional(readOnly = true)
 	Collection<Subscription> findAll();
+
+	void save(Subscription subscription);
 }
