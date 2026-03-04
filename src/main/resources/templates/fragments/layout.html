@@ -90,6 +90,8 @@
             </a>
           </li>
 
+
+
         </ul>
 
         <ul class="nav navbar-nav me-auto">
@@ -103,8 +105,16 @@
             <span class="fa fa-search" aria-hidden="true"></span>
             <span th:text="#{findSchools}">Schools</span>
           </li>
+          <--- added 3/4/26>
+          <li th:replace="~{::menuItem ('/pricing','pricing','Subscription pricing','trophy',#{pricingPage})}">
+            <span class="fa fa-trophy" aria-hidden="true"></span>
+            <span th:text="#{pricingPage}">Pricing</span>
+          </li>
 
-<!--          <li th:replace="~{::menuItem ('/owners/find','owners','find owners','search',#{findOwners})}">-->
+
+
+
+          <!--          <li th:replace="~{::menuItem ('/owners/find','owners','find owners','search',#{findOwners})}">-->
 <!--            <span class="fa fa-search" aria-hidden="true"></span>-->
 <!--            <span th:text="#{findOwners}">Find owners</span>-->
 <!--          </li>-->
