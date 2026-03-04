@@ -46,6 +46,8 @@ public class NamedEntity extends BaseEntity {
 	public String toString() {
 		String name = this.getName();
 		return (name != null) ? name : "<null>";
+
+
 	}
 
 }

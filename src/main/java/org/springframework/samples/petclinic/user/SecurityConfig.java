@@ -11,6 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SecurityConfig {
 
@@ -64,4 +66,17 @@ public class SecurityConfig {
 
 		return http.build();
 	}
+
+	/*@Bean --- not sure if it is rigth
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+			.authorizeHttpRequests((requests) -> requests
+				.requestMatchers("/", "/pricing", "/subscriptions/new").permitAll()
+				.anyRequest().authenticated()
+			)
+			.formLogin(withDefaults())
+			.logout(withDefaults());
+
+		return http.build();
+	}*/
 }
