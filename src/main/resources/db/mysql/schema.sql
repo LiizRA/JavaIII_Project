@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS users (
    public_email TINYINT DEFAULT 0,
    phone VARCHAR(255),
    public_phone TINYINT DEFAULT 0,
+   preferred_language varchar(50) null,
    password_hash VARCHAR(255),
    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

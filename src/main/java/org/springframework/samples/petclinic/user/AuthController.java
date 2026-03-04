@@ -16,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.samples.petclinic.validation.OnRegister;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -40,7 +43,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/register-student")
-	public String processRegisterForm(@Valid User user,
+	public String processRegisterForm(@Validated(OnRegister.class) @ModelAttribute("user") User user,
 									  BindingResult result,
 									  RedirectAttributes redirectAttributes,
 									  HttpServletRequest request) {
@@ -132,6 +135,11 @@ public class AuthController {
 	public String initLoginForm(Model model, HttpSession session) {
 		User user = new User();
 
+		String lastEmail = (String)session.getAttribute("LAST_EMAIL");
+		if(lastEmail != null) {
+			user.setEmail(lastEmail);
+			session.removeAttribute("LAST_EMAIL");
+		}
 		model.addAttribute("user", user);
 		return "auth/loginForm";
 	}
